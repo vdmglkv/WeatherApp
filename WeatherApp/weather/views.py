@@ -1,11 +1,18 @@
 from django.shortcuts import render
 from .models import City
+from .forms import CityForm
 import requests
 
 
 def index(request):
     appid = 'e8edd503f33a4623b2e6d34e9a1e5c32'
     cities = City.objects.all()
+
+    if request.method == 'POST':
+        form = CityForm(request.POST)
+        form.save()
+
+    form = CityForm()
 
     all_cities = []
     for city in cities:
@@ -18,6 +25,19 @@ def index(request):
         }
         all_cities.append(city_info)
 
-    content = {'all_info': all_cities}
+    content = {'all_info': all_cities, 'form': form}
 
     return render(request, 'weather/index.html', content)
+
+
+def main(request):
+    pass
+
+
+def about(request):
+    pass
+
+
+def support(request):
+    pass
+
